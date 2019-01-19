@@ -1,21 +1,82 @@
 .account-card {
     margin-left: -10%;
+    height: 360px;
 }
 
 .list-card {
     width: 80%;
-    height: 347px;
+    height: 360px;
     text-align: center;
     cursor: pointer;
+}
 
+.my-scroll {
+    overflow-y: scroll;
 }
 
 .my-th {
     width: 250px;
 }
 
-.my-receiver {
-    margin-top: 50px;
+.my-th-list {
+    font-weight: 600;
 }
 
+.my-th-list:hover {
+    font-weight: bolder;
+}
+
+.my-receiver {
+    margin-top: 50px;
+    height: 360px;
+}
+
+.my-input {
+    margin-top: -10px;
+}
+
+.my-btn {
+    margin-top: 15px;
+}
+
+.my-blocks-card {
+    margin-top: 50px;
+    margin-right: 35px;
+    transform: scale(0.94);
+    cursor: pointer;
+}
+
+.my-th-blocks {
+    width: 580px;
+}
+
+.my-tr-blocks:hover {
+    font-weight: bolder;
+}
+
+.my-btn-blocks {
+    margin-left: 85%;
+}
+
+.my-block-card {
+    width: 101%;
+    margin-top: 50px;
+    margin-left: -75px;
+}
+
+.my-th-width {
+    width: 35%;
+}
+
+.my-td-width {
+    width: 700px
+}
+
+.my-th-width-transaction {
+    width: 300px;
+}
+
+.my-background-transaction {
+    background-color: #ECECEC;
+}
 

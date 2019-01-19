@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AccountService } from '../shared/account.service';
+import { AccountDetailsModel } from '../shared/models/account-details-model';
 
 @Component({
     selector: 'app-header',
@@ -9,8 +11,29 @@ import { Router } from '@angular/router';
 
 export class HeaderComponent implements OnInit {
 
-    constructor(public router: Router) { }
+    myAccountDetails = new AccountDetailsModel;
+    accountExist = false;
+
+    constructor(
+        public router: Router,
+        private accountService: AccountService
+    ) { }
 
     ngOnInit() {
+        if (localStorage.account) {
+            this.accountExist = true;
+        }
+        this.getMyAccountDetails();
+    }
+
+    getMyAccountDetails() {
+        var accountLocalStorage = JSON.parse(localStorage.account);
+        this.accountService.getAccount(accountLocalStorage.name).subscribe(a => this.myAccountDetails = a);
+    }
+
+    logOut() {
+        this.accountExist = false;
+        localStorage.removeItem("account");
+        this.router.navigate(['/join']);
     }
 }

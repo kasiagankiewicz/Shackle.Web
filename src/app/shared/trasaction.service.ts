@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 
 @Injectable({
     providedIn: 'root'
-  })
+})
 export class TransactionService extends BaseApiService {
 
     constructor(http: HttpClient) {

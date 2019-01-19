@@ -1,7 +1,13 @@
 <header class="topbar">
     <nav class="navbar top-navbar navbar-expand-md navbar-light">
         <div class="navbar-header">
-            <a class="navbar-brand" href="/"><img src="../../assets/images/logo.png" class="my-logo"></a>
+                <span class="my-hello">
+                    <button *ngIf="accountExist" class="btn btn-light" (click)="logOut()">
+                        <span class="my-name">{{myAccountDetails.name}} </span>Log out
+                    </button>
+                </span>
+            <a class="navbar-brand"><img src="../../assets/images/logo.png" class="my-logo"></a>
         </div>
     </nav>
 </header>
+

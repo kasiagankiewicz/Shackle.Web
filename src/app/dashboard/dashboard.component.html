@@ -29,12 +29,12 @@
         </div>
     </div>
     <div class="col-md-4">
-        <div class="card list-card">
+        <div class="card list-card my-scroll">
             <div class="card-body">
-                <h3 class="card-tittle">List of accounts<i class="fa fa-user-o"></i></h3>
+                <h4 class="card-tittle">List of accounts <i class="fa fa-user"></i></h4>
                 <table class="table table-hover table-responsive">
                     <tr *ngFor="let account of accounts">
-                        <th class="my-th" (click)="pullReceiver(account.name)">{{account.name}}</th>
+                        <th class="my-th my-th-list" (click)="getReceiver(account.name)">{{account.name}}</th>
                     </tr>
                 </table>
             </div>
@@ -74,7 +74,7 @@
     <div class="col-md-4">
         <div class="card list-card my-receiver">
             <div class="card-body">
-                <h3 class="card-tittle">Transaction</h3>
+                <h4 class="card-tittle">Transaction</h4>
                 <table class="table table-hover table-responsive">
                     <tr>
                         <th class="my-th">From</th>
@@ -91,12 +91,84 @@
                 </table>
                 <span>
                     <input [(ngModel)]="amount" type="number" class="form-control my-input" placeholder="amount">
-                    <button (click)="executeTransaction(myAccountDetails.name, receiver.name)" class="btn btn-success">Execute</button>
+                    <button (click)="executeTransaction(myAccountDetails.name, receiver.name)" class="btn btn-success my-btn">Execute</button>
                 </span>
             </div>
         </div>
     </div>
 </div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card account-card my-scroll my-blocks-card">
+            <div class="card-body">
+                <h3 class="card-title">Blocks</h3>
+                <table class="table table-responsive table-hover">
+                    <tr>
+                        <th class="my-th-blocks">Index</th>
+                        <th class="my-th-blocks">Timestamp</th>
+                        <th class="my-th-blocks">Transactions</th>
+                    </tr>
+                    <tr (click)="getBlock(block)" class="my-tr-blocks" *ngFor="let block of blockchain.blocks">
+                        <td>{{block.index}}</td>
+                        <td>{{block.timestamp | date: 'dd/MM/yyyy hh:mm:ss'}}</td>
+                        <td>{{getLength(block)}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div *ngIf="isBlockExist" class="row">
+    <div class="col-md-12">
+        <div class="card my-block-card">
+            <div class="card-body">
+                <h3 class="card-title">Block #{{block.index}}</h3>
+                <table class="table table-responsive">
+                    <tr>
+                        <th class="my-th-width">Hash</th>
+                        <td class="my-td-width">{{block.hash}}</td>
+                    </tr>
+                    <tr>
+                        <th>Previous hash</th>
+                        <td>{{block.previousHash}}</td>
+                    </tr>
+                    <tr>
+                        <th>Nonce</th>
+                        <td>{{block.nonce}}</td>
+                    </tr>
+                    <tr>
+                        <th>Timestamp</th>
+                        <td>{{block.timestamp | date: 'dd/MM/yyyy hh:mm:ss'}}</td>
+                    </tr>
+                    <tr class="my-background-transaction">
+                        <th>Transactions</th>
+                        <td>{{getLength(block)}}</td>
+                    </tr>
+                    <tr> 
+                        <table class="table table-responsive" *ngFor="let transaction of block.transactions">
+                            <tr>
+                                <th>Sender</th>
+                                <th>Receiver</th>
+                                <th>Amount</th>
+                                <th>Signature</th>
+
+                            </tr>
+                            <tr>
+                                <td>{{transaction.sender.name}}</td>
+                                <td>{{transaction.receiver.name}}</td>
+                                <td>{{transaction.amount}}</td> 
+                                <td title="{{transaction.signature}}">{{truncate(transaction.signature)}}</td> 
+                            </tr>
+                        </table>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 
     
     
