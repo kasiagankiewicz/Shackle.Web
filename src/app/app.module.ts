@@ -8,6 +8,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HeaderComponent } from './header/header.component';
 import { FullComponent } from './full/full.component';
 import { DashboardModule } from './dashboard/dashboard.module';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -21,7 +23,10 @@ import { DashboardModule } from './dashboard/dashboard.module';
     AccountsModule,
     AppRoutingModule,
     HttpClientModule,
-    DashboardModule
+    DashboardModule,
+    NgbModule,
+    CommonModule,
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

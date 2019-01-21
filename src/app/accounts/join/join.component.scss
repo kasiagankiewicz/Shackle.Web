@@ -10,3 +10,25 @@
     width: 100px;
 }
 
+@media screen and (max-width: 770px) {
+    .my-card {
+        width: 60%;
+    }
+
+    .my-account-tittle {
+        font-size: 20px;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .my-card {
+        width: 50%;
+    }
+
+    .my-account-tittle {
+        font-size: 20px;
+    }
+}
+
+
+

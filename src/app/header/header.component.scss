@@ -16,3 +16,26 @@
 .my-log-out {
     margin-left: 170%;
 }
+
+@media screen and (max-width: 770px) {
+    .my-logo {
+        margin-top: 50px;
+        transform: scale(1.6);
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .my-logo {
+        transform: scale(1.7);
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .my-logo {
+        transform: scale(2.3);
+    }
+
+    .my-log-out {
+        margin-left: -10rem !important;
+    }
+}

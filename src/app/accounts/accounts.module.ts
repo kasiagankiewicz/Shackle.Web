@@ -4,12 +4,13 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { BrowseAccountsComponent } from './browse/browse-accounts.component';
 import { AccountsRoutes } from './accounts.routing';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { JoinComponent } from './join/join.component';
 
 @NgModule({
   imports: [
     NgbModule,
+    ReactiveFormsModule,
     CommonModule,
     FormsModule,
     RouterModule.forChild(AccountsRoutes),

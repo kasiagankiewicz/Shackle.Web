@@ -14,27 +14,31 @@ export class JoinComponent implements OnInit {
   accounts: AccountModel[];
   account = new AccountModel;
   name: string; 
-  nameModel: string; 
   joinForm: FormGroup;
+  submitDisabled: boolean;
+  submitted: boolean;
 
   constructor(
     private accountService: AccountService,
+    private formBuilder: FormBuilder,
     private router: Router,
   ) {}
 
   ngOnInit() {
+    this.joinForm = this.formBuilder.group({
+      name: ['', [Validators.required]],
+    });
   }
 
-  onKey(event: any) {
-    this.name = event.target.value;
-    console.log(this.name);
-  }
-
-  createAccount() {
-    console.log(this.nameModel);
-    this.account.name = this.name;
+  join() {
+    console.log(this.joinForm.value.name);
+    if (this.joinForm.invalid) {
+        return;
+    }
+    this.account.name = this.joinForm.value.name;
     this.accountService.setAccount(this.account);
     this.accountService.createAccount(this.account).subscribe(() => {
-    }) 
+      this.name = '';
+    });
   }
 }

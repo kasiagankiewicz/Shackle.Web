@@ -12,7 +12,7 @@ import { AccountDetailsModel } from '../shared/models/account-details-model';
 export class HeaderComponent implements OnInit {
 
     myAccountDetails = new AccountDetailsModel;
-    accountExist = false;
+    isAccountExist = false;
 
     constructor(
         public router: Router,
@@ -21,7 +21,7 @@ export class HeaderComponent implements OnInit {
 
     ngOnInit() {
         if (localStorage.account) {
-            this.accountExist = true;
+            this.isAccountExist = true;
         }
         this.getMyAccountDetails();
     }
@@ -32,7 +32,7 @@ export class HeaderComponent implements OnInit {
     }
 
     logOut() {
-        this.accountExist = false;
+        this.isAccountExist = false;
         localStorage.removeItem("account");
         this.router.navigate(['/join']);
     }

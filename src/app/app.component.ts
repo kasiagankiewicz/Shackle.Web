@@ -13,8 +13,5 @@ export class AppComponent {
   ) { }
 
   ngOnInit() {
-    if (!localStorage.account) {
-      this.router.navigate(['/join']);
-    }
   }
 }

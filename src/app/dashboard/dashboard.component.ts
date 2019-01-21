@@ -8,6 +8,7 @@ import { BlockchainService } from '../shared/blockchain.service';
 import { BlockchainModel } from '../shared/models/blockchain-model';
 import { forEach } from '@angular/router/src/utils/collection';
 import { BlockModel } from '../shared/models/block-model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -30,12 +31,17 @@ export class DashboardComponent implements OnInit {
     myName: string;
 
   constructor(
+    private router: Router,
     private accountService: AccountService,
     private transactionService: TransactionService,
     public blockchainService: BlockchainService,
   ) {}
 
   ngOnInit() {
+    if (!localStorage.account) {
+      this.router.navigate(['/join']);
+    }
+
     this.getAccounts();
     this.getMyAccountDetails();
     this.getBlockchain();
