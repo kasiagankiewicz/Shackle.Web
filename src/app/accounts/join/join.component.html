@@ -1,15 +1,18 @@
-<div class="row">
-    <div class="card my-card">
-        <div class="card-body my-body-card">
-            <form role="form" [formGroup]="joinForm">
-                <div class="form-content">
-                    <h3 class="my-account-tittle">Account</h3>
-                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="name" formControlName="name">
-                    </div>
+<div class="columns is-centered my-notification">
+    <div class="notification is-centered">
+        <div class="field" [formGroup]="joinForm">
+            <div class="control">
+                <h2 class="title has-text-centered">Account</h2>
+                <div class="field has-addons">
+                    <p class="control">
+                        <input class="input is-primary is-medium" type="text" placeholder="Name" formControlName="name">
+                    </p>
+                    <p class="control">
+                        <button (click)="join()" class="button is-primary is-medium">Join</button>
+                    </p>
                 </div>
-                <button onclick="window.location.href='/main'" (click)="join()" class="btn btn-primary my-btn">Join</button>
-            </form>
+            </div>
         </div>
     </div>
 </div>
+

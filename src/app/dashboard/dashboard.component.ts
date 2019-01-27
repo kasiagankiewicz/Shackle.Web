@@ -6,9 +6,9 @@ import { TransactionService } from '../shared/trasaction.service';
 import { TransactionModel } from '../shared/models/transaction-model';
 import { BlockchainService } from '../shared/blockchain.service';
 import { BlockchainModel } from '../shared/models/blockchain-model';
-import { forEach } from '@angular/router/src/utils/collection';
 import { BlockModel } from '../shared/models/block-model';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-dashboard',
@@ -34,45 +34,64 @@ export class DashboardComponent implements OnInit {
     private router: Router,
     private accountService: AccountService,
     private transactionService: TransactionService,
-    public blockchainService: BlockchainService,
+    private blockchainService: BlockchainService,
+    private toastr: ToastrService,
   ) {}
 
   ngOnInit() {
-    if (!localStorage.account) {
-      this.router.navigate(['/join']);
+    if (this.accountService.accountSaved) {
+        this.accountService.getMyAccount().subscribe(account => {
+        this.accountService.login();
+        this.getMyAccountDetails();
+        this.getBlockchain();
+      }, error => {
+        this.accountService.logout();
+        this.router.navigate(['/join']);
+        return;
+      });
+
+      return;
     }
 
-    this.getAccounts();
-    this.getMyAccountDetails();
-    this.getBlockchain();
-  }
-
-  getAccounts() {
-    this.accountService.getAccounts().subscribe(a => this.accounts = a);
+    this.router.navigate(['/join']);
   }
 
   getMyAccountDetails() {
-      var accountLocalStorage = JSON.parse(localStorage.account);
-      this.accountService.getAccount(accountLocalStorage.name).subscribe(a => {
-        this.myAccountDetails = a
+      this.accountService.getMyAccount().subscribe(account => {
+        this.myAccountDetails = account;
         this.myAccount.name = this.myAccountDetails.name;
         this.myAccount.address = this.myAccountDetails.address;
         this.myAccount.balance = this.myAccountDetails.balance;
-        var index = this.accounts.indexOf(this.myAccount);
+        this.getAccounts();
+      });
+  }
+
+  getAccounts() {
+    this.accountService.getAccounts()
+      .subscribe(accounts => {
+        this.accounts = accounts;
+        const index = this.accounts.indexOf(this.myAccount);
         this.accounts.splice(index);
       });
   }
 
   getReceiver(name: string) {
     this.isReceiverExist = true;
+    this.toastr.info('Receiver ' + name + ' has been chosen');
     this.accountService.getAccount(name).subscribe(a => this.receiver = a);
   }
 
   executeTransaction(sender: string, receiver: string) {
     this.transaction.sender = sender;
     this.transaction.receiver = receiver;
+    if (this.amount <= 0) {
+      this.amount = 0;
+      this.toastr.error('Amount must be greater than 0');
+      return;
+    }
     this.transaction.amount = this.amount;
     this.transactionService.execute(this.transaction).subscribe(() => {
+        this.toastr.success('Transaction has been executed successfully!');
         this.receiver.balance += this.amount;
         this.myAccountDetails.balance -= this.amount;
         this.amount = 0;
@@ -81,8 +100,8 @@ export class DashboardComponent implements OnInit {
 
   getBlockchain() {
     setTimeout(() => {
-      this.blockchainService.browse().subscribe(b => {
-        this.blockchain = b
+      this.blockchainService.browse().subscribe(blockchain => {
+        this.blockchain = blockchain;
         this.blockchain.blocks.reverse();
       });
       this.getBlockchain();

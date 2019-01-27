@@ -23,7 +23,6 @@ export class BrowseAccountsComponent implements OnInit {
   getAccounts() {
     this.accountService
     .getAccounts()
-    .subscribe(a => this.accounts = a);
-    console.log(this.accounts);
+    .subscribe(accounts => this.accounts = accounts);
   }
 }

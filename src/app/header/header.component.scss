@@ -1,41 +1,35 @@
-.my-logo {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    width: 50%;
+.logo {
+    margin-top: -5%;
+    transform: scale(0.5);
+    cursor: default;
 }
 
-.my-hello {
-    margin-left: 80%;
+.my-cointainer {
+    margin-top: 2%;
 }
 
-.my-name {
-    font-weight: bolder;
+.hello {
+    margin-top: 10px;
 }
 
-.my-log-out {
-    margin-left: 170%;
+.color {
+    color: #00d1b2;
 }
 
-@media screen and (max-width: 770px) {
-    .my-logo {
-        margin-top: 50px;
-        transform: scale(1.6);
+@media screen and (max-width: 1300px) {
+    .logo {
+        height: 20rem;
     }
 }
-
-@media screen and (max-width: 500px) {
-    .my-logo {
-        transform: scale(1.7);
+@media screen and (max-width: 800px) {
+    .logo {
+        height: 15rem;
     }
 }
-
-@media screen and (max-width: 400px) {
-    .my-logo {
-        transform: scale(2.3);
-    }
-
-    .my-log-out {
-        margin-left: -10rem !important;
+@media screen and (max-width: 650px) {
+    .logo {
+        transform: scale(0.9);
+        height: 8rem;
+        margin-top: 1%;
     }
 }

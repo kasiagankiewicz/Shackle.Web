@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AccountModel } from 'src/app/shared/models/account-model';
 import { AccountService } from 'src/app/shared/account.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-join',
@@ -12,8 +13,6 @@ import { Router, RouterLink } from '@angular/router';
 export class JoinComponent implements OnInit {
 
   accounts: AccountModel[];
-  account = new AccountModel;
-  name: string; 
   joinForm: FormGroup;
   submitDisabled: boolean;
   submitted: boolean;
@@ -22,23 +21,35 @@ export class JoinComponent implements OnInit {
     private accountService: AccountService,
     private formBuilder: FormBuilder,
     private router: Router,
+    private toastr: ToastrService,
   ) {}
 
   ngOnInit() {
+    if (this.accountService.accountSaved) {
+      this.accountService.getMyAccount().subscribe(account => {
+        this.accountService.login();
+        this.router.navigate(['/main']);
+        return;
+      }, error => {
+        this.accountService.logout();
+      });
+    }
+
     this.joinForm = this.formBuilder.group({
       name: ['', [Validators.required]],
     });
   }
 
   join() {
-    console.log(this.joinForm.value.name);
     if (this.joinForm.invalid) {
         return;
     }
-    this.account.name = this.joinForm.value.name;
-    this.accountService.setAccount(this.account);
-    this.accountService.createAccount(this.account).subscribe(() => {
-      this.name = '';
+    const accountName = this.joinForm.value.name;
+    this.accountService.createAccount(accountName).subscribe(() => {
+      this.accountService.setAccount(accountName);
+      this.toastr.success('Successfully joined!');
+      this.accountService.login();
+      this.router.navigate(['/main']);
     });
   }
 }

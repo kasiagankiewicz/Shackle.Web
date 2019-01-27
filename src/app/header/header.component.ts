@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AccountService } from '../shared/account.service';
 import { AccountDetailsModel } from '../shared/models/account-details-model';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
     selector: 'app-header',
@@ -12,28 +13,30 @@ import { AccountDetailsModel } from '../shared/models/account-details-model';
 export class HeaderComponent implements OnInit {
 
     myAccountDetails = new AccountDetailsModel;
-    isAccountExist = false;
+    accountExists = this.accountService.accountExists$;
 
     constructor(
-        public router: Router,
-        private accountService: AccountService
+        private router: Router,
+        private accountService: AccountService,
+        private toastr: ToastrService,
     ) { }
 
     ngOnInit() {
-        if (localStorage.account) {
-            this.isAccountExist = true;
-        }
-        this.getMyAccountDetails();
+        this.accountService.accountName$.subscribe(accountName => {
+            if (accountName) {
+                this.getMyAccountDetails();
+            }
+        });
     }
 
     getMyAccountDetails() {
-        var accountLocalStorage = JSON.parse(localStorage.account);
-        this.accountService.getAccount(accountLocalStorage.name).subscribe(a => this.myAccountDetails = a);
+        this.accountService.getMyAccount()
+            .subscribe(account => this.myAccountDetails = account);
     }
 
     logOut() {
-        this.isAccountExist = false;
-        localStorage.removeItem("account");
+        this.toastr.info('You logged out');
+        this.accountService.logout();
         this.router.navigate(['/join']);
     }
 }

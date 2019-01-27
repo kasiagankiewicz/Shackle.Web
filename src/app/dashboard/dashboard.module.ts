@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -8,7 +7,6 @@ import { DashboardComponent } from './dashboard.component';
 
 @NgModule({
   imports: [
-    NgbModule,
     CommonModule,
     FormsModule,
     RouterModule.forChild(DashboardRoutes),
