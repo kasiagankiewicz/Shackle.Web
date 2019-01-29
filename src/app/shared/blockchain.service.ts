@@ -19,6 +19,10 @@ export class BlockchainService extends BaseApiService {
     }
 
     getBlock(index: number): Observable<BlockModel> {
-        return super.get<BlockModel>(`blockchain/${index}`);
+        return super.get<BlockModel>(`blockchain/blocks/${index}`);
+    }
+
+    getLastBlock(): Observable<BlockModel> {
+        return super.get<BlockModel>(`blockchain/blocks/last`);
     }
 }

@@ -8,9 +8,9 @@ import { JoinComponent } from './join/join.component';
 
 @NgModule({
   imports: [
-    ReactiveFormsModule,
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     RouterModule.forChild(AccountsRoutes),
   ],
   declarations: [

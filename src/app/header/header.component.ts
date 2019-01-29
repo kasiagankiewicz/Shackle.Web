@@ -34,7 +34,7 @@ export class HeaderComponent implements OnInit {
             .subscribe(account => this.myAccountDetails = account);
     }
 
-    logOut() {
+    logout() {
         this.toastr.info('You logged out');
         this.accountService.logout();
         this.router.navigate(['/join']);

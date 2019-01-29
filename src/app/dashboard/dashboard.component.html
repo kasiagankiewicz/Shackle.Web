@@ -1,166 +1,191 @@
-<div class="tile is-ancestor">
-    <div class="tile is-parent is-8">
-        <article class="tile is-child box scroll-x">
-            <p class="title">Your account</p>
-            <table class="content table is-fullwidth">
-                <tr>
-                    <th>Name</th>
-                    <td>{{myAccountDetails.name}}</td>
-                </tr>
-                <tr>
-                    <th>Balance</th>
-                    <td>{{myAccountDetails.balance}}</td>
-                </tr>
-                <tr>
-                    <th>Address</th>
-                    <td>{{myAccountDetails.address}}</td>
-                </tr>
-                <tr>
-                    <th>Public key</th>
-                    <td>{{myAccountDetails.publicKey}}</td>
-                </tr>
-                <tr>
-                    <th>Private key</th>
-                    <td>{{myAccountDetails.privateKey}}</td>
-                </tr>
-            </table>
-        </article>
-    </div>
-    <div class="tile is-parent is-4">
-        <article class="tile is-child box scroll-y">
-            <p class="title has-text-centered"><i class="fa fa-users"></i></p>
-            <div class="max-height">
-                <table class="content table is-hoverable is-fullwidth">
-                    <tr *ngFor="let account of accounts">
-                        <td class="has-text-centered tr-hover" (click)="getReceiver(account.name)">{{account.name}}</td>
+<div *ngIf="main" class="field has-addons">
+    <button (click)="changeView('main')" class="button is-primary is-medium is-fullwidth">Main</button>
+    <button (click)="changeView('difficulty')" class="button is-medium is-fullwidth">Difficulty</button>
+</div>
+<div *ngIf="!main" class="field has-addons">
+    <button (click)="changeView('main')" class="button is-medium is-fullwidth">Main</button>
+    <button (click)="changeView('difficulty')" class="button is-medium is-primary is-fullwidth">Difficulty</button>
+</div>
+<div *ngIf="main">
+    <div class="tile is-ancestor">
+        <div class="tile is-parent is-8">
+            <article class="tile is-child box scroll-x">
+                <p class="title">Your account</p>
+                <table class="content table is-fullwidth is-striped">
+                    <tr>
+                        <th>Name</th>
+                        <td>{{myAccountDetails.name}}</td>
+                    </tr>
+                    <tr>
+                        <th>Balance</th>
+                        <td>{{myAccountDetails.balance}}</td>
+                    </tr>
+                    <tr>
+                        <th>Address</th>
+                        <td>{{myAccountDetails.address}}</td>
+                    </tr>
+                    <tr>
+                        <th>Public key</th>
+                        <td>{{myAccountDetails.publicKey}}</td>
+                    </tr>
+                    <tr>
+                        <th>Private key</th>
+                        <td>{{myAccountDetails.privateKey}}</td>
                     </tr>
                 </table>
-            </div>
-        </article>
-    </div>
-</div>
-<div *ngIf="isReceiverExist" class="tile is-ancestor">
-    <div class="tile is-parent is-8">
-        <article class="tile is-child box scroll-x">
-            <p class="title">Receiver</p>
-            <table class="content table is-fullwidth">
-                <tr>
-                    <th>Name</th>
-                    <td>{{receiver.name}}</td>
-                </tr>
-                <tr>
-                    <th>Balance</th>
-                    <td>{{receiver.balance}}</td>
-                </tr>
-                <tr>
-                    <th>Address</th>
-                    <td>{{receiver.address}}</td>
-                </tr>
-                <tr>
-                    <th>Public key</th>
-                    <td>{{receiver.publicKey}}</td>
-                </tr>
-                <tr>
-                    <th>Private key</th>
-                    <td>{{receiver.privateKey}}</td>
-                </tr>
-            </table>
-        </article>
-    </div>
-    <div class="tile is-parent is-4">
-        <article class="tile is-child box">
-            <p class="title has-text-centered">Transaction</p>
-            <table class="content table is-hoverable is-fullwidth">
-                <tr>
-                    <th>From</th>
-                    <td>{{myAccountDetails.name}}</td>
-                </tr>
-                <tr>
-                    <th>To</th>
-                    <td>{{receiver.name}}</td>
-                </tr>
-            </table>
-            <div class="column"></div>
-            <div class="column"></div>
-            <span>
-                <div class="field has-addons">
-                    <p class="control">
-                        <input [(ngModel)]="amount" type="number" class="input is-primary" placeholder="amount">
-                    </p>
-                    <p class="control">
-                        <button (click)="executeTransaction(myAccountDetails.name, receiver.name)" class="button is-primary">Execute</button>
-                    </p>
+            </article>
+        </div>
+        <div class="tile is-parent is-4">
+            <article class="tile is-child box scroll-y">
+                <p class="title has-text-centered"><i class="fa fa-users"></i></p>
+                <div class="max-height">
+                    <table class="content table is-hoverable is-fullwidth">
+                        <tr *ngFor="let account of accounts">
+                            <td class="has-text-centered tr-hover" (click)="getReceiver(account.name)">{{account.name}}</td>
+                        </tr>
+                    </table>
                 </div>
-            </span>
-        </article>
+            </article>
+        </div>
     </div>
-</div>
-<div class="tile is-ancestor">
-    <div class="tile is-parent">
-        <article class="tile is-child box scroll-x scroll-y">
-            <p class="title">Blocks</p>
-            <div class="max-height-12">
-                <table class="content table is-fullwidth is-hoverable">
+    <div *ngIf="isReceiverExist" class="tile is-ancestor">
+        <div class="tile is-parent is-8">
+            <article class="tile is-child box scroll-x">
+                <p class="title">Receiver</p>
+                <table class="content table is-fullwidth is-striped">
                     <tr>
-                        <th>Index</th>
-                        <th>Timestamp</th>
-                        <th>Transactions</th>
+                        <th>Name</th>
+                        <td>{{receiver.name}}</td>
                     </tr>
-                    <tr (click)="getBlock(block)" class="tr-hover" *ngFor="let block of blockchain.blocks">
-                        <td>{{block.index}}</td>
-                        <td>{{block.timestamp | date: 'dd/MM/yyyy hh:mm:ss'}}</td>
-                        <td>{{getLength(block)}}</td>
+                    <tr>
+                        <th>Balance</th>
+                        <td>{{receiver.balance}}</td>
+                    </tr>
+                    <tr>
+                        <th>Address</th>
+                        <td>{{receiver.address}}</td>
+                    </tr>
+                    <tr>
+                        <th>Public key</th>
+                        <td>{{receiver.publicKey}}</td>
+                    </tr>
+                    <tr>
+                        <th>Private key</th>
+                        <td>{{receiver.privateKey}}</td>
                     </tr>
                 </table>
-            </div>
-        </article>
+            </article>
+        </div>
+        <div class="tile is-parent is-4">
+            <article class="tile is-child box">
+                <p class="title has-text-centered">Transaction</p>
+                <table class="content table is-hoverable is-fullwidth">
+                    <tr>
+                        <th>From</th>
+                        <td>{{myAccountDetails.name}}</td>
+                    </tr>
+                    <tr>
+                        <th>To</th>
+                        <td>{{receiver.name}}</td>
+                    </tr>
+                </table>
+                <div class="column"></div>
+                <div class="column"></div>
+                <span>
+                    <div class="field has-addons">
+                        <p class="control">
+                            <input [(ngModel)]="amount" type="number" class="input is-primary" placeholder="Amount">
+                        </p>
+                        <p class="control">
+                            <button (click)="executeTransaction(myAccountDetails.name, receiver.name)" class="button is-primary">Execute</button>
+                        </p>
+                    </div>
+                </span>
+            </article>
+        </div>
     </div>
-</div>
-<div *ngIf="isBlockExist" class="tile is-ancestor">
-    <div class="tile is-parent">
-        <article class="tile is-child box scroll-x">
-            <p class="title">Block #{{block.index}}</p>
-            <div class="max-height-12">
-                <table class="content table is-fullwidth">
-                    <tr>
-                        <th>Hash</th>
-                        <td>{{block.hash}}</td>
-                    </tr>
-                    <tr>
-                        <th>Previous hash</th>
-                        <td>{{block.previousHash}}</td>
-                    </tr>
-                    <tr>
-                        <th>Nonce</th>
-                        <td>{{block.nonce}}</td>
-                    </tr>
-                    <tr>
-                        <th>Timestamp</th>
-                        <td>{{block.timestamp | date: 'dd/MM/yyyy hh:mm:ss'}}</td>
-                    </tr>
-                    <tr>
-                        <th>Transactions</th>
-                        <td>{{getLength(block)}}</td>
-                    </tr>
-                    <tr> 
-                        <table class="table" *ngFor="let transaction of block.transactions">
-                            <tr>
-                                <th>Sender</th>
-                                <th>Receiver</th>
-                                <th>Amount</th>
-                                <th>Signature</th>
+    <div class="tile is-ancestor">
+        <div class="tile is-parent">
+            <article class="tile is-child box scroll-x scroll-y">
+                <p class="title">Blocks</p>
+                <div class="max-height-12">
+                    <table class="content table is-fullwidth is-hoverable">
+                        <tr>
+                            <th>Index</th>
+                            <th>Timestamp</th>
+                            <th>Transactions</th>
+                        </tr>
+                        <tr (click)="getBlock(block)" class="tr-hover" *ngFor="let block of blockchain.blocks">
+                            <td>{{block.index}}</td>
+                            <td>{{block.timestamp | date: 'dd/MM/yyyy hh:mm:ss'}}</td>
+                            <td>{{getLength(block)}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </article>
+        </div>
+    </div>
+    <div *ngIf="isBlockExist" class="tile is-ancestor">
+        <div class="tile is-parent">
+            <article class="tile is-child box">
+                <p class="title">Block #{{block.index}}</p>
+                <div>
+                    <table class="content table is-fullwidth">
+                        <tr>
+                            <th>Hash</th>
+                            <td>{{block.hash}}</td>
+                        </tr>
+                        <tr>
+                            <th>Previous hash</th>
+                            <td>{{block.previousHash}}</td>
+                        </tr>
+                        <tr>
+                            <th>Nonce</th>
+                            <td>{{block.nonce}}</td>
+                        </tr>
+                        <tr>
+                            <th>Timestamp</th>
+                            <td>{{block.timestamp | date: 'dd/MM/yyyy hh:mm:ss'}}</td>
+                        </tr>
+                        <tr>
+                            <th>Transactions</th>
+                            <td>{{getLength(block)}}</td>
+                        </tr>
+                        <tr> 
+                            <table class="table" *ngFor="let transaction of block.transactions">
+                                <tr>
+                                    <th>Sender</th>
+                                    <th>Receiver</th>
+                                    <th>Amount</th>
+                                    <th>Signature</th>
 
-                            </tr>
-                            <tr>
-                                <td>{{transaction.sender.name}}</td>
-                                <td>{{transaction.receiver.name}}</td>
-                                <td>{{transaction.amount}}</td> 
-                                <td title="{{transaction.signature}}">{{truncate(transaction.signature)}}</td> 
-                            </tr>
-                        </table>
-                    </tr>
-                </table>
-            </div>
-        </article>
+                                </tr>
+                                <tr>
+                                    <td>{{transaction.sender.name}}</td>
+                                    <td>{{transaction.receiver.name}}</td>
+                                    <td>{{transaction.amount}}</td> 
+                                    <td title="{{transaction.signature}}">{{truncate(transaction.signature)}}</td> 
+                                </tr>
+                            </table>
+                        </tr>
+                    </table>
+                </div>
+            </article>
+        </div>
+    </div>
+</div>
+<div *ngIf="!main">
+    <div class="tile is-ancestor">
+        <div class="tile is-parent">
+            <article class="tile is-child box">
+                <p class="title">Choose difficulty</p>
+                <div class="field has-addons">
+                    <button class="button is-medium is-fullwidth">1</button>
+                    <button class="button is-medium is-fullwidth">2</button>
+                    <button class="button is-medium is-fullwidth">3</button>
+                    <button class="button is-medium is-fullwidth">4</button>
+                </div>
+            </article>
+        </div>
     </div>
 </div>

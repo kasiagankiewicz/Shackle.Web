@@ -1,11 +1,9 @@
-<header class="topbar">
-    <div *ngIf="accountExists.value" class="container my-cointainer">
-        <button class="button is-primary is-outlined pull-right" (click)="logOut()">
-            <strong>Log out</strong>
-        </button>
-        <h3 class="title color">Hello</h3>
-        <h4 class="subtitle">{{myAccountDetails.name}}</h4>
-        <hr/>
-    </div>
-    <a class="navbar-brand logo"><img src="../../assets/images/logo.png"></a>
-</header>
+<div *ngIf="accountExists.value" class="top">
+    <button class="button is-primary is-medium is-outlined pull-right" (click)="logout()">
+        <strong>Log out</strong>
+    </button>
+    <p class="title color">Hello</p>
+    <p class="subtitle">{{myAccountDetails.name}}</p>
+    <hr/>
+</div>
+<a class="navbar-brand logo"><img src="../../assets/images/logo.png"></a>

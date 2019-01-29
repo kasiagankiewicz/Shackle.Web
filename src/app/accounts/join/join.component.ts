@@ -14,7 +14,6 @@ export class JoinComponent implements OnInit {
 
   accounts: AccountModel[];
   joinForm: FormGroup;
-  submitDisabled: boolean;
   submitted: boolean;
 
   constructor(
@@ -36,7 +35,7 @@ export class JoinComponent implements OnInit {
     }
 
     this.joinForm = this.formBuilder.group({
-      name: ['', [Validators.required]],
+      name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(20)]],
     });
   }
 
@@ -44,12 +43,14 @@ export class JoinComponent implements OnInit {
     if (this.joinForm.invalid) {
         return;
     }
+    this.submitted = true;
     const accountName = this.joinForm.value.name;
     this.accountService.createAccount(accountName).subscribe(() => {
       this.accountService.setAccount(accountName);
       this.toastr.success('Successfully joined!');
       this.accountService.login();
+      this.submitted = false;
       this.router.navigate(['/main']);
-    });
+    }, error => { this.submitted = false; });
   }
 }

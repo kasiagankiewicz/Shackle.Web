@@ -4,12 +4,17 @@
             <div class="control">
                 <h2 class="title has-text-centered">Account</h2>
                 <div class="field has-addons">
-                    <p class="control">
-                        <input class="input is-primary is-medium" type="text" placeholder="Name" formControlName="name">
-                    </p>
-                    <p class="control">
-                        <button (click)="join()" class="button is-primary is-medium">Join</button>
-                    </p>
+                    <div class="control">
+                        <input class="input is-primary is-medium" type="text" placeholder="Name" formControlName="name" [ngClass]="{ 'is-danger': !joinForm.get('name').valid &&  !joinForm.get('name').pristine }">
+                        <div *ngIf="!joinForm.get('name').valid && !joinForm.get('name').pristine">
+                            <div class="has-text-danger" *ngIf="joinForm.get('name').errors.required">Name is required</div>
+                            <div class="has-text-danger" *ngIf="joinForm.get('name').errors.minlength">Name must be at least 3 characters</div>
+                            <div class="has-text-danger" *ngIf="joinForm.get('name').errors.maxlength">Name must not contain more than 20 characters</div>
+                        </div>
+                    </div>
+                    <div class="control">
+                        <button (click)="join()" class="button is-primary is-medium" [disabled]="submitted || !joinForm.valid">Join</button>
+                    </div>
                 </div>
             </div>
         </div>

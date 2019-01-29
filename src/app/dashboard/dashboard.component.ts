@@ -27,8 +27,10 @@ export class DashboardComponent implements OnInit {
     blockchain = new BlockchainModel;
     isBlockExist = false;
     block = new BlockModel;
+    lastBlock = new BlockModel;
     transactions: TransactionModel[];
     myName: string;
+    main = true;
 
   constructor(
     private router: Router,
@@ -44,6 +46,7 @@ export class DashboardComponent implements OnInit {
         this.accountService.login();
         this.getMyAccountDetails();
         this.getBlockchain();
+        this.getLastBlock();
       }, error => {
         this.accountService.logout();
         this.router.navigate(['/join']);
@@ -99,13 +102,26 @@ export class DashboardComponent implements OnInit {
   }
 
   getBlockchain() {
+    this.blockchainService.browse().subscribe(blockchain => {
+      this.blockchain = blockchain;
+      this.blockchain.blocks.reverse();
+    });
+  }
+
+  getLastBlock() {
     setTimeout(() => {
-      this.blockchainService.browse().subscribe(blockchain => {
-        this.blockchain = blockchain;
-        this.blockchain.blocks.reverse();
+      this.blockchainService.getLastBlock().subscribe(block => {
+        this.lastBlock = block;
+        this.addLastBlock();
       });
-      this.getBlockchain();
-    }, 1000);
+      this.getLastBlock();
+    }, 3000);
+  }
+
+  addLastBlock() {
+    if (this.lastBlock.index !== this.blockchain.blocks[0].index) {
+      this.blockchain.blocks.unshift(this.lastBlock);
+    }
   }
 
   getLength(block: BlockModel) {
@@ -124,4 +140,14 @@ export class DashboardComponent implements OnInit {
   truncate(text: string) {
     return text.length <= 10 ? text : `${text.substring(0, 9)}...`;
   }
+
+  changeView(viewType: string) {
+    const main = 'main';
+    if (viewType === main) {
+      this.main = true;
+    } else {
+        this.main = false;
+    }
+  }
 }
+
