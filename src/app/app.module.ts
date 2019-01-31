@@ -11,6 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { FooterComponent } from './shared/footer/footer.component';
+import { ChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { FooterComponent } from './shared/footer/footer.component';
     FooterComponent,
   ],
   imports: [
+    ChartsModule,
     BrowserModule,
     AccountsModule,
     AppRoutingModule,

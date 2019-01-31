@@ -21,16 +21,21 @@ export class DashboardComponent implements OnInit {
     myAccountDetails = new AccountDetailsModel;
     myAccount = new AccountModel;
     receiver = new AccountDetailsModel;
-    isReceiverExist = false;
+    receiverExist = false;
     amount: number;
     transaction = new TransactionModel;
     blockchain = new BlockchainModel;
-    isBlockExist = false;
+    blockExist = false;
     block = new BlockModel;
     lastBlock = new BlockModel;
     transactions: TransactionModel[];
     myName: string;
     main = true;
+    blockWithDifficulty: BlockModel;
+    blockWithDifficultyExist: boolean;
+    isModalActive = false;
+    difficulty: number;
+    currentDifficulty: number;
 
   constructor(
     private router: Router,
@@ -47,6 +52,7 @@ export class DashboardComponent implements OnInit {
         this.getMyAccountDetails();
         this.getBlockchain();
         this.getLastBlock();
+        this.getCurrentDifficulty();
       }, error => {
         this.accountService.logout();
         this.router.navigate(['/join']);
@@ -79,7 +85,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getReceiver(name: string) {
-    this.isReceiverExist = true;
+    this.receiverExist = true;
     this.toastr.info('Receiver ' + name + ' has been chosen');
     this.accountService.getAccount(name).subscribe(a => this.receiver = a);
   }
@@ -119,6 +125,9 @@ export class DashboardComponent implements OnInit {
   }
 
   addLastBlock() {
+    if (!this.lastBlock || !this.blockchain.blocks[0]) {
+      return;
+    }
     if (this.lastBlock.index !== this.blockchain.blocks[0].index) {
       this.blockchain.blocks.unshift(this.lastBlock);
     }
@@ -132,7 +141,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getBlock(block: BlockModel) {
-    this.isBlockExist = true;
+    this.blockExist = true;
     this.blockchainService.getBlock(block.index).subscribe(b => this.block = b);
     this.transactions = block.transactions;
   }
@@ -148,6 +157,45 @@ export class DashboardComponent implements OnInit {
     } else {
         this.main = false;
     }
+  }
+
+  chooseDifficulty(difficulty: number) {
+    this.difficulty = difficulty;
+  }
+
+  mine() {
+    if (this.difficulty === this.currentDifficulty) {
+      this.toastr.warning('This is your current difficulty. Choose a different value');
+      return;
+    }
+    const miningTime = 1500 * this.difficulty;
+    this.isModalActive = !this.isModalActive;
+    setTimeout(() => {
+      this.isModalActive = !this.isModalActive;
+      this.blockWithDifficultyExist = true;
+      this.getBlockWithDifficuly();
+      this.toastr.success('Block was successfully mined!');
+      this.currentDifficulty = this.difficulty;
+      }, miningTime);
+    this.setDifficulty();
+  }
+
+  private setDifficulty() {
+    this.blockchainService.setDifficulty(this.difficulty).subscribe(() => {
+    });
+  }
+
+  private getBlockWithDifficuly() {
+    this.blockchainService.getLastBlock().subscribe(block => {
+      this.blockWithDifficulty = block;
+    });
+  }
+
+  getCurrentDifficulty() {
+    this.blockchainService.getDifficulty().subscribe(number => {
+      this.currentDifficulty = number;
+      this.difficulty = this.currentDifficulty;
+    });
   }
 }
 

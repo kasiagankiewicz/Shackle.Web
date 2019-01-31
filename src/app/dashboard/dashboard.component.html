@@ -48,7 +48,7 @@
             </article>
         </div>
     </div>
-    <div *ngIf="isReceiverExist" class="tile is-ancestor">
+    <div *ngIf="receiverExist" class="tile is-ancestor">
         <div class="tile is-parent is-8">
             <article class="tile is-child box scroll-x">
                 <p class="title">Receiver</p>
@@ -125,7 +125,7 @@
             </article>
         </div>
     </div>
-    <div *ngIf="isBlockExist" class="tile is-ancestor">
+    <div *ngIf="blockExist" class="tile is-ancestor">
         <div class="tile is-parent">
             <article class="tile is-child box">
                 <p class="title">Block #{{block.index}}</p>
@@ -146,6 +146,10 @@
                         <tr>
                             <th>Timestamp</th>
                             <td>{{block.timestamp | date: 'dd/MM/yyyy hh:mm:ss'}}</td>
+                        </tr>
+                        <tr>
+                            <th>Mining time</th>
+                            <td>{{block.miningTime}} ms</td>
                         </tr>
                         <tr>
                             <th>Transactions</th>
@@ -178,12 +182,60 @@
     <div class="tile is-ancestor">
         <div class="tile is-parent">
             <article class="tile is-child box">
-                <p class="title">Choose difficulty</p>
-                <div class="field has-addons">
-                    <button class="button is-medium is-fullwidth">1</button>
-                    <button class="button is-medium is-fullwidth">2</button>
-                    <button class="button is-medium is-fullwidth">3</button>
-                    <button class="button is-medium is-fullwidth">4</button>
+                <p class="title">Difficulty settings</p>
+                <div class="column"></div>
+                <p class="subtitle">Current difficulty: <strong>{{currentDifficulty}}</strong></p>
+                <p class="subtitle">Chose difficulty:</p>
+                <div class="field has-addons is-fullwidth">
+                    <div class="column"></div>
+                    <button (click)="chooseDifficulty(1)" [ngClass]="difficulty === 1 ? 'is-focused' : 'button'" class="button column is-medium is-2">1</button>
+                    <div class="column"></div>
+                    <button (click)="chooseDifficulty(2)" [ngClass]="difficulty === 2 ? 'is-focused' : 'button'" class="button column is-medium is-2">2</button>
+                    <div class="column"></div>
+                    <button (click)="chooseDifficulty(3)" [ngClass]="difficulty === 3 ? 'is-focused' : 'button'" class="button column is-medium is-2">3</button>
+                    <div class="column"></div>
+                    <button (click)="chooseDifficulty(4)" [ngClass]="difficulty === 4 ? 'is-focused' : 'button'" class="button column is-medium is-2">4</button>
+                    <div class="column"></div>
+                    <button (click)="mine()" class="button is-primary is-medium is-2"><i class="fa fa-gears"></i>&nbsp; MINE</button>
+                </div>
+                <div class="column"></div>
+                <div class="column"></div>
+                <div class="modal" [ngClass]="{ 'is-active' : isModalActive }">
+                    <div class="modal-background"></div>
+                    <div class="modal-card">
+                    <section class="modal-card-body transparent">
+                        <div class="fa-5x spinner">
+                            <i class="fa fa-spinner fa-pulse spinner"></i>
+                        </div>
+                    </section>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </div>
+    <div *ngIf="blockWithDifficultyExist" class="tile is-ancestor">
+        <div class="tile is-parent">
+            <article class="tile is-child box">
+                <p class="title">Block #{{blockWithDifficulty.index}}</p>
+                <div>
+                    <table class="content table is-fullwidth">
+                        <tr>
+                            <th>Hash</th>
+                            <td>{{blockWithDifficulty.hash}}</td>
+                        </tr>
+                        <tr>
+                            <th>Previous hash</th>
+                            <td>{{blockWithDifficulty.previousHash}}</td>
+                        </tr>
+                        <tr>
+                            <th>Nonce</th>
+                            <td>{{blockWithDifficulty.nonce}}</td>
+                        </tr>
+                        <tr>
+                            <th>Mining time</th>
+                            <td>{{blockWithDifficulty.miningTime}} ms</td>
+                        </tr>
+                    </table>
                 </div>
             </article>
         </div>

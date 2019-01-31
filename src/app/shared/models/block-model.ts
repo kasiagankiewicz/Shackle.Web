@@ -7,4 +7,5 @@ export class BlockModel {
     transactions: TransactionModel[];
     timestamp: Date;
     nonce: number;
+    miningTime: number;
 }
