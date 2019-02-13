@@ -13,6 +13,6 @@ export class TransactionService extends BaseApiService {
     }
 
     execute(data): Observable<any> {
-        return super.post('transfers', data);
+        return super.post('blockchain/transactions', data);
     }
 }

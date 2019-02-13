@@ -62,26 +62,3 @@
         </article>
     </div>
 </div>
-
-
-
-    <div style="width: 40%;">
-        <canvas
-            baseChart
-            [chartType]="'line'"
-            [datasets]="chartData"
-            [labels]="chartLabels"
-            [options]="chartOptions"
-            [legend]="true"
-            (chartClick)="onChartClick($event)">
-        </canvas>
-      </div>
-<button (click)="addDataAndLabel(timesWithDifficulty1, number)" class="button is-primary">Difficulty 1</button>
-<div class="column"></div>
-<button (click)="addDataAndLabel(timesWithDifficulty2, number)" class="button is-primary">Difficulty 2</button>
-<div class="column"></div>
-<button (click)="addDataAndLabel(timesWithDifficulty3, number)" class="button is-primary">Difficulty 3</button>
-<div class="column"></div>
-<button (click)="addDataAndLabel(timesWithDifficulty4, number)" class="button is-primary">Difficulty 4</button>
-
-

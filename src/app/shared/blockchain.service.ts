@@ -23,7 +23,7 @@ export class BlockchainService extends BaseApiService {
     }
 
     getLastBlock(): Observable<BlockModel> {
-        return super.get<BlockModel>(`blockchain/blocks/last`);
+        return super.get<BlockModel>(`blockchain/blocks/current`);
     }
 
     setDifficulty(difficulty: number): Observable<any> {
