@@ -20,8 +20,8 @@ import { ChartsModule } from 'ng2-charts';
     FooterComponent,
   ],
   imports: [
-    ChartsModule,
     BrowserModule,
+    ChartsModule,
     AccountsModule,
     AppRoutingModule,
     HttpClientModule,

@@ -29,13 +29,6 @@ export class DashboardComponent implements OnInit {
     block = new BlockModel;
     lastBlock = new BlockModel;
     transactions: TransactionModel[];
-    myName: string;
-    main = true;
-    blockWithDifficulty: BlockModel;
-    blockWithDifficultyExist: boolean;
-    isModalActive = false;
-    difficulty: number;
-    currentDifficulty: number;
 
   constructor(
     private router: Router,
@@ -52,7 +45,6 @@ export class DashboardComponent implements OnInit {
         this.getMyAccountDetails();
         this.getBlockchain();
         this.getLastBlock();
-        this.getCurrentDifficulty();
       }, error => {
         this.accountService.logout();
         this.router.navigate(['/join']);
@@ -61,7 +53,6 @@ export class DashboardComponent implements OnInit {
 
       return;
     }
-
     this.router.navigate(['/join']);
   }
 
@@ -150,52 +141,12 @@ export class DashboardComponent implements OnInit {
     return text.length <= 10 ? text : `${text.substring(0, 9)}...`;
   }
 
-  changeView(viewType: string) {
-    const main = 'main';
-    if (viewType === main) {
-      this.main = true;
-    } else {
-        this.main = false;
-    }
+  navigateToDashboard() {
+    this.router.navigate(['/main']);
   }
 
-  chooseDifficulty(difficulty: number) {
-    this.difficulty = difficulty;
-  }
-
-  mine() {
-    if (this.difficulty === this.currentDifficulty) {
-      this.toastr.warning('This is your current difficulty. Choose a different value');
-      return;
-    }
-    const miningTime = 1500 * this.difficulty;
-    this.isModalActive = !this.isModalActive;
-    setTimeout(() => {
-      this.isModalActive = !this.isModalActive;
-      this.blockWithDifficultyExist = true;
-      this.getBlockWithDifficuly();
-      this.toastr.success('Block was successfully mined!');
-      this.currentDifficulty = this.difficulty;
-      }, miningTime);
-    this.setDifficulty();
-  }
-
-  private setDifficulty() {
-    this.blockchainService.setDifficulty(this.difficulty).subscribe(() => {
-    });
-  }
-
-  private getBlockWithDifficuly() {
-    this.blockchainService.getLastBlock().subscribe(block => {
-      this.blockWithDifficulty = block;
-    });
-  }
-
-  getCurrentDifficulty() {
-    this.blockchainService.getDifficulty().subscribe(number => {
-      this.currentDifficulty = number;
-      this.difficulty = this.currentDifficulty;
-    });
+  navigateToSettings() {
+    this.router.navigate(['/settings']);
   }
 }
 

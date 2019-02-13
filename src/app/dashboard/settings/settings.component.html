@@ -1,0 +1,87 @@
+<div class="field has-addons">
+    <button (click)="navigateToDashboard()" class="button is-medium is-fullwidth">Main</button>
+    <button (click)="navigateToSettings()" class="button is-medium is-primary is-fullwidth">Settings</button>
+</div>
+<div class="tile is-ancestor">
+    <div class="tile is-parent">
+        <article class="tile is-child box">
+            <p class="title">Difficulty settings</p>
+            <div class="column"></div>
+            <p class="subtitle">Choose difficulty:</p>
+            <div class="field has-addons is-fullwidth">
+                <div class="column"></div>
+                <button (click)="chooseDifficulty(1)" [ngClass]="difficulty === 1 ? 'is-focused' : 'button'" class="button column is-medium is-2">1</button>
+                <div class="column"></div>
+                <button (click)="chooseDifficulty(2)" [ngClass]="difficulty === 2 ? 'is-focused' : 'button'" class="button column is-medium is-2">2</button>
+                <div class="column"></div>
+                <button (click)="chooseDifficulty(3)" [ngClass]="difficulty === 3 ? 'is-focused' : 'button'" class="button column is-medium is-2">3</button>
+                <div class="column"></div>
+                <button (click)="chooseDifficulty(4)" [ngClass]="difficulty === 4 ? 'is-focused' : 'button'" class="button column is-medium is-2">4</button>
+                <div class="column"></div>
+                <button (click)="mine()" class="button is-primary is-medium is-2"><i class="fa fa-gears"></i>&nbsp; MINE</button>
+            </div>
+            <div class="column"></div>
+            <div class="column"></div>
+            <div class="modal" [ngClass]="{ 'is-active' : isModalActive }">
+                <div class="modal-background"></div>
+                <div class="modal-card">
+                <section class="modal-card-body transparent">
+                    <div class="fa-5x spinner">
+                        <i class="fa fa-spinner fa-pulse spinner"></i>
+                    </div>
+                </section>
+                </div>
+            </div>
+        </article>
+    </div>
+</div>
+<div *ngIf="blockWithDifficultyExist" class="tile is-ancestor">
+    <div class="tile is-parent">
+        <article class="tile is-child box">
+            <p class="title">Block #{{blockWithDifficulty.index}}</p>
+            <div>
+                <table class="content table is-fullwidth">
+                    <tr>
+                        <th>Hash</th>
+                        <td>{{blockWithDifficulty.hash}}</td>
+                    </tr>
+                    <tr>
+                        <th>Previous hash</th>
+                        <td>{{blockWithDifficulty.previousHash}}</td>
+                    </tr>
+                    <tr>
+                        <th>Nonce</th>
+                        <td>{{blockWithDifficulty.nonce}}</td>
+                    </tr>
+                    <tr>
+                        <th>Mining time</th>
+                        <td>{{blockWithDifficulty.miningTime}} ms</td>
+                    </tr>
+                </table>
+            </div>
+        </article>
+    </div>
+</div>
+
+
+
+    <div style="width: 40%;">
+        <canvas
+            baseChart
+            [chartType]="'line'"
+            [datasets]="chartData"
+            [labels]="chartLabels"
+            [options]="chartOptions"
+            [legend]="true"
+            (chartClick)="onChartClick($event)">
+        </canvas>
+      </div>
+<button (click)="addDataAndLabel(timesWithDifficulty1, number)" class="button is-primary">Difficulty 1</button>
+<div class="column"></div>
+<button (click)="addDataAndLabel(timesWithDifficulty2, number)" class="button is-primary">Difficulty 2</button>
+<div class="column"></div>
+<button (click)="addDataAndLabel(timesWithDifficulty3, number)" class="button is-primary">Difficulty 3</button>
+<div class="column"></div>
+<button (click)="addDataAndLabel(timesWithDifficulty4, number)" class="button is-primary">Difficulty 4</button>
+
+
